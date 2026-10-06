@@ -35,9 +35,9 @@
 --     visibly unguarded.  The missing hypothesis is CSP's "the body is guarded"
 --     (performs a visible event before returning); note that Agda's productivity
 --     check does NOT supply it — `div = sil div` is perfectly productive and
---     maximally divergent.  Intended shape for a later commit:
---         `Guarded B → τ-Acc B → τ-Acc (loop0 B)`
---     with `Guarded` ruling out a `ret` reachable by τ's alone.
+--     maximally divergent.  Now BUILT, at every reachable state and modulo H,
+--     in `CSP.Laws.DivFree.Loop`: `MAccR-loop0` / `MAccR-loop` (τ form
+--     `τ-AccReach-loop`), with `Guarded` ruling out a `ret` reachable by τ/H steps.
 --
 -- No `postulate`, no `NON_TERMINATING`, no sized types, no `dne`/`Classical`.
 ------------------------------------------------------------------------

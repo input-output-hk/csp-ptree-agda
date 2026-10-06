@@ -25,10 +25,6 @@ still the branch this document was written against and still the reference point
 DIFFERENT branch, **`semantics/failure-sim`**; the branch name above has deliberately
 NOT been rewritten.
 
-**Branch note (2026-09-22):** the "Leios prototype" section below records work landed on
-a third branch, **`examples/leios_prototype_protocols`**. It is an EXAMPLE estate, not a
-law section: it adds no algebraic law and changes no §1–§17 row.
-
 _Last updated: 2026-08-04._
 
 ---
@@ -53,6 +49,7 @@ _Last updated: 2026-08-04._
 | §15 | One-way failure simulation `FSim` (the `⊑FD` order) | ✅ **record + `⊑T`/`⊇D`/`⊇F⊥`/`⊑FD` bridges + preorder**, `FSimFromRel` coinduction principle, `drbisim→fsim` refactor, four operator congruences (`Par`/`>>=`/`∖`/`iter`), the FD-hide counterexample refuted at the simulation level, one worked smoke test; **2026-08-04:** throw `Θ-fsim`/`Θ-mono-⊑FD` (`FSim/ThrowCong`), the second `agda --safe`-clean FSim congruence overall and the first for an operand-deconstructing operator — see the §17 addendum's full sweep (2 of 7 clean) |
 | §16 | Divergence-freedom (`τ-Acc`) + stability calculi | ✅ **generic `Semantics/DivergenceFree` + 19 per-operator `τ-Acc` closures + the gathered stability layer** (both new modules postulate-free); ⚠️ measured payoff at the EXISTING proof sites is nil — those sites need τ-FREENESS, which `τ-Acc` is strictly weaker than |
 | §17 | Consolidated FD/DR/FSim congruence & monotonicity coverage (2026-08-03 campaign, + same-day addendum, + 2026-08-04 αpar addendum, + 2026-08-04 later throw addendum, + 2026-08-04 loop/rename fact-shaped addendum) | ✅ **`⊓`/prefix FSim congruences** (`FSim/IChoiceCong`, postulate-free), **9 `⊑FD`-mono loop/bind wrappers** (`FD/LoopMonoFD` — ALL NINE since RETIRED 2026-08-04 and the module DELETED: the 4 BIND ones + `loop0-mono-⊑FD-fsim` in favour of the fact-shaped `FD/BindMonoFD` / `FD/IterateMonoFD`, then the 4 LOOP ones in favour of `FD/IterMonoFD`), **fact-shaped bind/sequential precongruence `>>=`/`bindNoτ`/`bindκ`/`>>` + folds `⨾⋆`/`⨾Fin`** (`FD/BindMonoFD`, 2026-08-04) and the `force-≡→⊑FD` hoist into `Semantics/FailuresDivergences`, **fact-shaped LOOP precongruence `iter`/`loop`/`while`/`loopc`** (`FD/IterMonoFD`, 2026-08-04) and **fact-shaped RENAMING precongruence `renameInv`/`renameMap`** (`FD/RenameMonoFD`, 2026-08-04 — renaming's first monotonicity law at any shape), **`≈FD` congruence row + suite index** (`FD/Congruences`), **`⦀Fin`/`⦀⋆` FSim congruences** (`FSim/ParCongRep`), **assembled two-leaf `FSim` tower** (`CSP.Examples.FSimTower`); full operator × relation matrix + the two-regimes finding below; **addendum:** `□-fsim`/`□-mono-⊑FD` (`FSim/ExtChoiceCong`, two-sided, no `Sep`), one-sided `▷-fsim-R`/`▷-mono-R-⊑FD-fsim` (`FSim/SlideCong`) plus the two-sided `▷`-congruence proved FALSE (`FSim/SlideCounterexample`), the `fsim-τ*-prepend`/`div-prepend-τ*` linchpin (`Semantics/FailureSim`); **2026-08-04 addendum:** binary alphabetised parallel `αpar-fsim-df`/`αpar-mono-⊑FD-fsim-df` (`FSim/AlphaParCong`, conditional on `τ-AccReach` divergence-freedom of the SPEC operands, `CSP/Laws/AlphaParallelLift` support layer, no `Sep`/`DecEq R` needed), the two-sided congruence proved FALSE **and the one-sided form FALSE in both orientations** (`FSim/AlphaParCounterexample`, sharper than `▷`'s one-sided-true case), `fsim-sil-factor` (`Semantics/FailureSim`); **2026-08-04 later addendum:** throw `Θ-fsim`/`Θ-mono-⊑FD` (`FSim/ThrowCong`, two-sided, unconditional, `agda --safe`-clean — the second clean FSim congruence overall, the first for an operand-deconstructing operator), the `ThrowFD`→`TraceLawsThrowInterrupt` hoist, and a full `--safe` sweep of the 7 top-level FSim operator congruences (2 clean); **2026-08-05 addendum:** the **STABLE-FAILURES (`⊑F`) layer** — `Par-mono-⊑F` + six folds (`FD/ParallelMonoFD` Layer 10) pairing with `Hide-mono-⊑F` (`FD/HideMonoFD`:255), both **UNCONDITIONAL**, giving the first compositional route that crosses a hide with a bare refinement FACT at refusal strength; needs **no divergence layer at all** (`_⊑F_` has no `divergences` disjunct) and inherits `offer-LEM` only |
+| §18 | Replication `!` (`CSP/Replication.agda`, 2026-09-30) | 🟡 **native combinator + step calculus + divergence-freedom + trace approximation + strong frame law under disjointness, all shipped**; three negative controls (`rep-skip`, `Rep-unguarded-diverges`, `naive-unfold-fails`) pin the model's `ret`-drop / unguarded-τ / index-order behaviour; the uniform `≈FD` laws `!ᶜ-frame-FD` / `!ᶜ-absorb-FD` / `!ᶜ-unfold-FD` (`!ᶜ P ≈FD P ⦀ !ᶜ P`) are **shipped with no premise on P** (used postulates: `Par-Diverges→`, plus `¬-divergent→normal` for the unfold only); still 🟡 because index-dependent copies remain out of scope (`naive-unfold-fails`) |
 
 **Bottom line:** the four core "untimed" operator algebras (`⊓`, `□`, prefix,
 conditional), sequential composition, interrupt/throw, **and parallel** are all fully
@@ -64,6 +61,11 @@ coinductive relation with no `bwd`/`div←`, giving `⊑FD` directly and carryin
 congruences for parallel, bind, hiding, external choice (two-sided, no side condition)
 and the loops — plus a one-sided sliding-choice congruence, its two-sided form proved
 false rather than merely unattempted.
+
+**Branch note (2026-09-30):** §18 (Replication) records work landed on branch
+`security_replication`, a DIFFERENT branch from `spike/extc-fd-laws` (the header above)
+and from `semantics/failure-sim` (§15/§16). The operator (`CSP/Replication.agda`) is
+new; nothing in §1–§17 was touched.
 
 ---
 
@@ -415,11 +417,10 @@ priority layer into `Semantics/FinBr.agda`, where it belongs — it mentions onl
 like `Semantics.LTS`. `CSP/Priority/Base.agda` re-exports it at `I = ExtI E`, so the ~22
 modules that get `FinBr` from there needed **zero** downstream edits.
 
-**Cost of the one-way route vs. the two-way one** (measured on the real-scale
-`Liveness/PipePairFlipBFs` BF-server peer refinement; the FSim re-proof is
-`CSP/Examples/Cardano_network/NetworkVerification/Liveness/PipePairFlipBFsFSim.agda`,
-which reuses `bfsFwdE` / `bfsFwdT` / `bfsNdivL` verbatim and replaces
-`bfsBwdE` / `bfsBwdT` / `bfsNdivR` by one `bfsStab`):
+**Cost of the one-way route vs. the two-way one** (measured on a real-scale peer
+refinement case study; the FSim re-proof reuses the forward obligations (`fwdE` /
+`fwdT` / `ndivL`) verbatim and replaces the backward ones (`bwdE` / `bwdT` / `ndivR`)
+by one `stab` proof):
 
 | Metric | Route A (`≈DR`) | Route B (`FSim`) | Δ |
 |---|---|---|---|
@@ -517,10 +518,7 @@ notion in this tree.
 - **Where divergence-freedom DOES pay, added 2026-08-11:** `⊑F→⊑FD-df`
   (`Semantics/FDFromF.agda`, row in §15's table) consumes exactly a divergence-free
   right-hand side and turns a stable-failures refinement into `⊑FD` outright — an
-  `FSim`-independent route into `⊑FD`. Still a leaf (imported by nothing); its intended
-  consumer is the four-node liveness campaign, whose `LiveNoDivH` supplies exactly that
-  side condition by lexicographic descent
-  (`CSP/Examples/Cardano_network/FourNode/Liveness/CSP_Refinement/LiveNoDivH.agda`).
+  `FSim`-independent route into `⊑FD`. Still a leaf (imported by nothing).
 - **Hide is not redone.** `MAcc A P → ¬ Diverges (P ∖ A)` already exists as
   `Hide-noDiv-from-MAcc` at `CSP/Laws/FD/HideDivergence.agda:78`.
 - **Sites.** `CSP/Examples/UCS/Ch6/AbpFT.agda` converted: the hand-rolled
@@ -531,9 +529,7 @@ notion in this tree.
   `Ch7/SeqBuffers.agda` — their τ-free states are plain `react … ∅t` leaves, **not**
   operator composites, so the existing `sSil ()` / `sTau refl ()` refutations are already
   minimal; converting would trade 2 lines of proof for an import plus a layer of
-  indirection. `Cardano_network/Terminable/NetworkTRefinement.agda` would go 18 → 8 lines
-  (`spec0-noτ` / `S1-noτ`, two 8-shape `sTau` case splits) but is a WIP experiment and
-  was left untouched.
+  indirection.
 - **The consolidation itself was roughly a wash on line count** (`e1260da`: +127 / −88).
   Its value is single-sourcing, not brevity.
 - **Deduplication NON-findings, worth recording so nobody re-opens them.**
@@ -563,6 +559,60 @@ no sized types.
   before this work — it declared `{-# OPTIONS --safe #-}` while `Process_Trees` does not,
   giving `[CoInfectiveImport]`. The pragma was dropped; the content is still
   `--safe`-clean, and `agda --safe Semantics/TauAcc.agda` still exits 0.
+
+---
+
+### Reachable-state accessibility and the no-livelock bridge (2026-10-03) — postulate-free
+
+Eight new modules, each closure checked postulate-free (`closure-check.py`: 0 postulates,
+0 escape pragmas, no König seam):
+`CSP/Laws/DivFree/ModAcc` (modulo-H accessibility `MAcc`/`MAccR`, `τ-AccReach→noDiv`),
+`CSP/Laws/FD/NoLivelock` (the bridge `noLivelockT`: a counting bound on every trace plus no
+divergence at any reachable state ⇒ `¬ divergences (P ∖ H) s`, constructive; and `τ-AccReach-∖#`),
+`CSP/Laws/DivFree/Reach` (`MAccR` closures for `Par` — asymmetric in H — `∥⇘⇙`, `⦀`, `⦀⁺`, `⦀⋆`,
+`⦀Fin`, `⦀Fin⁺`, and hiding `MAccR-∖`), `ReachRename` / `ReachInterrupt` (`renameMap`, `△`, τ form),
+`Loop` (the guarded-loop lemma `MAccR-loop` / `τ-AccReach-loop` named in `Closure.agda:33-40`, plus
+`iter`, `>>=`, prefixes, `Output`, and the `iter`-guard leaves `NoRetBy-mono` / `NoRetBy-Ret`),
+`ReachChoice` (`⊓`, `▷`, `□`), and the probe
+`NoLivelockProbe` (both bridge premises discharged on a two-process pipe; two controls, `ctl-a` /
+`ctl-b`, each PROVES the other premise (`ctl-a-b`, `ctl-b-a`) and still admits a hidden divergence,
+so each premise is load-bearing).
+
+Scope — read before quoting:
+- **Generic layer only.** This SUPPLIES THE MACHINERY (a reachability-closed `MAccR`, and the
+  hide-run walk `pull` inside `noLivelockT`); it proves no no-livelock theorem about any
+  particular system.
+- The two sanctioned classical seams (`¬-divergent→normal` in `Semantics/DRImpliesFD`,
+  `modA-transfer` in `CSP/Laws/Bisim/DRCongruence`) are untouched and are in no closure here.
+
+### Trace counting and value provenance (2026-10-05) — postulate-free
+
+Generic support under `CSP/Laws/DivFree/`, one line each:
+- `Count` — trace counting (`#e`, `labels`, label weights `Σc`, depth `Dp`, `AllT`/`Post`,
+  `Rounds`), additivity through `Par` (`Σc-par`), the pointer-loop bound `ptrLoop` and the
+  invariant loop `invLoop`;
+- `CountMore` — `Σc` through a synchronised / free `Par` (`Σc-sync`, `Σc-⦀`), the bridge to
+  `#H`/`#V` (`#H≡Σc`), weighted depth, triggered loops and the iteration potential;
+- `CountRename` — `Σc` and provenance through `renameMap`, under the renaming's `ι-rinv`
+  (the relation-free `rename-∖√-elim` loses the label correspondence);
+- `ReachExtra` — modulo-H accessibility through `if_then_else_` and `maybe′`;
+- `Prov` — the value-provenance carrier, built fresh: `Prov`, its composition through `Par`
+  by projection (`Prov-par`), `Prov-close`, `Prov-hide`, and the per-round calculus `ProvT`
+  with `provInv`;
+- `ProvMore` — chain-free components (`AllT→PA`), conditionals, `⦀⁺`/`⦀Fin⁺`, `Prov-comap`;
+- `RenAlpha` — `AllL` through a renaming.
+
+### Label facts, interrupt traces and nested hiding (2026-10-05) — postulate-free
+
+Generic support, one line each:
+- `CSP/Laws/DivFree/ParLabels` — label facts through one `Par` run (`subR`, `labR`, `AllL-⦀`);
+- `CSP/Laws/DivFree/TraceInterrupt` — every run of `P △ Q` is a run of `P` then a run of `Q`
+  (`△-trace-elim`), so label facts, weighted relays and provenance survive an inert handler;
+- `CSP/Laws/FD/NoLivelockHide` — the nested-hiding bridge `noLivelockT-∖`: a counting bound
+  for `P` against `H`, `A ⊆ᴱ H` and `P`'s τ-accessibility give no divergence of `(P ∖ A) ∖ H`
+  (`#H-hide`/`#V-hide`: the inner hiding only drops `#H`, keeps `#V`);
+- `CSP/Laws/Traces/TraceIntroExact` — trace INTRODUCTION with exact endpoints (`ParX`, `HideX`,
+  `renX`, and `△X` through an interrupt whose handler refuses the run's events).
 
 ---
 
@@ -980,7 +1030,7 @@ refinement. Other ch4 subsystems (ABP/SWP protocols, sudoku) are separate specs.
   general4's deadlock-freedom/divergence-freedom deferred.
 - `General4DivFree` (minimal cyclic triangle) — general4's HOLDING
   `HNetwork :[divergence free]`: `general4-divergenceFree : DivergenceFree
-  HNetwork`, via the Cardano acyclic-τ-DAG `¬Diverges` technique (well-founded
+  HNetwork`, via the acyclic-τ-DAG `¬Diverges` technique (well-founded
   recursion on a measure = number of nodes holding an undelivered packet; every
   hidden `pass` is a single-hop delivery that strictly decreases it). The
   careful, delivering `next` never circulates — the divergence-free counterpart
@@ -1011,7 +1061,7 @@ refinement. Other ch4 subsystems (ABP/SWP protocols, sudoku) are separate specs.
 - `RoutingRingNonBlockingDivFree` (N=2) — nonblock's HOLDING `RingH :[divergence
   free]`: the non-blocking ring with its internal `ring` channel hidden is
   divergence-free — `nonBlockingRing-divergenceFree : DivergenceFree RingH`
-  (`RingH = nonBlockingRing ∖ ringES`), via the Cardano acyclic-τ-DAG `¬Diverges`
+  (`RingH = nonBlockingRing ∖ ringES`), via the acyclic-τ-DAG `¬Diverges`
   technique (well-founded measure = total remaining forward-hops of in-flight
   packets; every hidden `ring`-forward strictly decreases it, delivery is a
   visible `receive`). Unlike tokring (empty tokens circulate) and general4a
@@ -1526,354 +1576,6 @@ Reading that table honestly:
   lists it only so nobody goes looking for it as a port, and does not use it.
 
 _Last updated 2026-09-03._
-
----
-
-## Cardano network example — link-indexed network vs. `CopySpec` (`Examples/Cardano_network/`)
-
-`NetworkLink` (`NetworkLink.agda`) re-renders the monolithic `Network` mux
-(`Network.agda`) per TCP link, as `⦀Fin numLinks NetOneLink` — the same shape
-`CopySpec` already has (`⦀Fin numLinks linkCopy`). `NetworkLinkEquiv.agda`
-assembles the headline equivalence out of the reusable generic congruence
-machinery above:
-
-| Result | Status | Module |
-|---|---|---|
-| `perLink : (l : Link) → linkConfig l ≢ [] → Unique (linkConfig l) → NetOneLink l ≈DR linkCopy l` (per-link general-config mux-vs-copy) | ✅ **PROVED, postulate-free** (Milestone 2b: the `PerLink.Leaf` → `PerLink.Fold` → `PerLink.Exp` `⦀⋆`-fold expansion walk; hypotheses honest per the 2026-07-10 spike: `≢ []` = empty-config soundness fix, `Unique` = instance-disjoint fold step-elimination) | `PerLink.Exp` |
-| `netLink≈DR : (∀ l → linkConfig l ≢ [] × Unique (linkConfig l)) → NetworkLink ≈DR CopySpec` | ✅ (`cong-⦀Fin` applied to `linkAlpha`/`linkAlpha-disj` + `oo-NetOneLink`/`oo-linkCopy`, fed by the PROVED `perLink`; `Data →` dropped) | `NetworkLinkEquiv` |
-| `netLink≈FD : (∀ l → linkConfig l ≢ [] × Unique (linkConfig l)) → NetworkLink ≈FD CopySpec` | ✅ **PROVED** (`drbisim→≈FD (netLink≈DR hyp)`) — modulo ONLY the module-level certified König/classical axioms (Par-Diverges→, DRImpliesFD), as elsewhere in the FD layer | `NetworkLinkEquiv` |
-| `netLink⊑FD` / `spec⊑FD-Link` (the two `≈FD` refinement directions, same hypothesis) | ✅ proved via `proj₁`/`proj₂`, same König caveat | `NetworkLinkEquiv` |
-| `perLink-single : (l : Link)(dc : Dir)(idc : IDs) → linkConfig l ≡ (dc , idc) ∷ [] → NetOneLink l ≈DR linkCopy l` (per-link singleton-config corollary) | ✅ **corollary** of the general `perLink` (a singleton config is manifestly `≢ []` and trivially `Unique`) | `NetworkLinkEquiv` |
-| `netLink≈DR-single : (∀ l → Σ[ c ] linkConfig l ≡ c ∷ []) → NetworkLink ≈DR CopySpec` (all-singleton network) | ✅ **corollary** — routes each singleton witness into `netLink≈DR`'s `≢ [] × Unique` hypothesis; König caveat as above | `NetworkLinkEquiv` |
-| `netLink≈FD-single : (∀ l → Σ[ c ] linkConfig l ≡ c ∷ []) → NetworkLink ≈FD CopySpec` (all-singleton network) | ✅ **corollary** — `drbisim→≈FD (netLink≈DR-single sing)`; König caveat as above | `NetworkLinkEquiv` |
-
-Confinement side: `linkAlpha`/`linkAlpha-disj` (per-link value-level alphabets,
-pairwise disjoint) and `oo-NetOneLink`/`oo-linkCopy` (both families `OffersOnly`
-their own link's alphabet, closed structurally through the `MenuConf` leaves and
-the generic `OffersOnly-⦀`/`-Par`/`-∖` lemmas) are proved with **no postulates,
-holes, or `NON_TERMINATING`** in `NetworkLinkOffers.agda`.
-
-Milestone 2b closes this subsystem: the general per-link `perLink` (previously
-the one remaining axiom in `NetworkLinkEquiv`) is now PROVED in `PerLink.Exp`
-(the `Leaf` → `Fold` → `Exp` `⦀⋆`-fold expansion), `NetworkLinkEquiv` declares
-zero axioms, and the four headline theorems drop their `Data →` witness. The
-all-singleton results are now corollaries of the general path. The subsystem is
-axiom-free modulo ONLY the FD layer's certified König/classical inputs
-(`Par-Diverges→`, `DRImpliesFD`), as everywhere else.
-
-**Repair note (2026-07-31), `NetworkVerification/Liveness/PipePair.agda`:** a
-pre-existing RED module, unrelated to §15 but blocking work on it, is green again. It
-carried **12 stale `OffersOnly` witnesses**: `e ! v ⟶ P` is `Output e v P` — a SINGLE
-`react` node — so four sites needed `OffersOnly-Output refl OffersOnly-Ret` where they
-had a bare `OffersOnly-Ret`, and eight had an extra `OffersOnly-Prefix₀` layer that the
-single node does not have. The fix unblocks **6 of the module's 23 importers**; the other
-17 have their own independent errors and remain red.
-
-### Four-node diamond block-liveness — CSP failures-divergences refinement statement (`FourNode/Liveness/CSP_Refinement/Spec.lagda.md`, 2026-08-05)
-
-`CSP/Examples/Cardano_network/FourNode/Liveness/CSP_Refinement/Spec` states, as a
-CSP refinement, the block-liveness property of the broken four-node diamond
-`breakableSystem` (`FourNode/FourNodeDiamondBreakable.lagda.md`):
-
-```
-LivenessSpec = ∀ (b : Block₃) → LSpec b true true ⊑FD (breakableSystemOf b ∖ hidden b)
-```
-
-**Status: stated — deliberately NOT proved and NOT postulated.**
-`LivenessSpec` is a `Set`, exactly like `BlockLiveness`/`BlockLiveness⁺` in the
-sibling LTL module (`FourNode/Liveness/LTL/Spec.lagda.md`) — no term of
-this type is constructed anywhere, and there is no postulate standing in for
-one. It is the CSP-refinement counterpart to the trace-LTL `BlockLiveness⁺`:
-both express "if at least one A→B→D/A→C→D path stays whole, NodeD receives
-NodeA's block", but `BlockLiveness⁺` uses **global** confinement (one path
-group never breaks, checked via an implication over the whole run) whereas
-`LivenessSpec` tracks path-wholeness **per state** by observing `break`
-events directly, so it needs no implication primitive and is strictly weaker
-as a hypothesis.
-
-The obligation the Spec actually imposes is **per path and conjunctive**: *if A
-produced `b` on path X's entry link **and** path X is whole, then D's receive of
-`b` on X's exit link is not refused.* The produce conjunct is load-bearing —
-gating on path-wholeness alone refuted the statement at trace length 1
-(`t = ⟨send@AB⟩`, `X = {recv@CD}`: the implementation has a stable state there
-refusing `recv@CD`, since C never got the block, while every branch of the old
-`Prod b true true` offered it). `Prod`/`delivMenu` therefore carry four flags,
-`b p1 g1 p2 g2`; see Decision 12 of the design doc.
-
-The module ships **45 computable `refl` sanity tests** (11 hide-set incl. a
-near-miss battery and two `EventSet.dec` probes, 9 delivery-menu, 6
-must-offer/may-event, 18 real-τ-map coverage over every flag-updating branch of
-`prodτ`/`idleτ`, 1 block-generic continuity) and is otherwise
-**postulate-free**; the statement quantifies over the block-generic
-`breakableSystemOf b` (not the `b1`-fixed shipped `breakableSystem`), so `∀ b` is
-non-vacuous for every block in `Block₃`. Full truth analysis
-(divergence-freedom on both sides of the refinement, the produce-gating of the
-obligation, the must-offer/may-offer `Prod`-branch fix, the CHAOS `Done`
-requirement, the causal justification for the idle state offering no receive,
-boundary cases, and the future proof route) is in the module's own "Truth
-analysis" section; design rationale is
-`docs/superpowers/specs/2026-08-04-fournode-liveness-csp-refinement-design.md`.
-
----
-
-## Leios prototype (branch `examples/leios_prototype_protocols`, 2026-09-22)
-
-A port of the two Leios mini-protocols as implemented on the `leios-prototype` branch of
-`ouroboros-consensus`, a Linear-Leios node logic over them, and **five node-level safety
-theorems, each with a negative control**. Modules under
-`Examples/Cardano_network/Parametric/Leios/`. Plan
-`docs/superpowers/plans/2026-09-21-leios-prototype-protocols.md`; design spec
-`docs/superpowers/specs/2026-09-21-leios-prototype-protocols-design.md`; ADR
-`docs/superpowers/decisions/2026-09-21-leios-tx-closure-and-object-identities.md`.
-
-**Coexistence (the verbatim module header of `LeiosNotifyP`/`LeiosFetchP`/`PeersP`):**
-
-> This module models the Leios mini-protocol as implemented on the `leios-prototype`
-> branch of ouroboros-consensus (`LeiosDemoOnlyTest{Notify,Fetch}.hs`, protocol numbers
-> 18/19), which adapts the CIP-164 draft of July 2026. Messages, payload types, state
-> machine and agency follow the prototype exactly, with two payload abstractions recorded
-> in the ADR `docs/superpowers/decisions/2026-09-21-leios-tx-closure-and-object-identities.md`
-> (`TxBitmap` is a concrete offset set; `MsgLeiosBlockTxs` is an offset-indexed map without
-> a bitmap echo); pipelining and credits, vote weights, deadlines, equivocation and
-> freshness are abstracted (peers are depth-1 alternating machines; the oracles
-> `certifies`, `ebSize`, `ebTxs` stand in for validation). The older CIP-draft model
-> (`LeiosNotify.agda`/`LeiosFetch.agda`, `apiLN`/`apiLF`) stays beside this one: both ride
-> the same protocol ids and wire channels, and a node runs one or the other by the bundle
-> builder passed to `Node.nodeWith` (`nodeBundle` / `nodeBundleR` versus `nodeBundleP`).
-> Theorems about the old peers (`announceSafeT`, `bfOverLf`, the four-node liveness estate)
-> are untouched by this module.
-
-None of these is a network-wide (`systemOfWith`) statement, and none of them re-establishes
-`AnnounceSafeConcrete.announceSafeT`, which remains a theorem about the old relay logic and
-the old peers.
-
-That "untouched" applies to the `announceSafeT` / `bfOverLf` / four-node-liveness families
-and is verified there — **but it is not true of everything on the branch.** `voteSound`
-(S2) and `certSound`/`certSoundL` (S3) predate this branch and were themselves
-**re-pointed from `nodeBundleR` to `nodeBundleP`** (`VoteSound:260`, `CertSound:201`,
-`LeiosInstanceL:135`), **with changed specifications**: S2's key type was rebuilt
-(a three-sorted `VoteKey` replaced `voteKey : EBHash × Bool`) and S3's oracle was re-keyed
-(`certifies : List VoteBlob → RbHash → Bool` replaced `… → EBHash → Bool`). Commit
-`7ed02265` then left `nodeBundleR` carrying **zero `Wf` facts** and one consumer,
-`PeersRSanity`. A write-up may say the OLD-PEER THEOREMS are untouched; it may not say the
-branch is purely additive.
-
-**There is no S0 on this branch.** Announcement safety for `nodeLogicL` is a network-wide
-statement (at node level it is either false or vacuous) and is deferred to the network-wide
-lift as its own plan; nothing here may be quoted as announcement safety for the Leios node
-logic.
-
-The old `LeiosFetch` (`LeiosFetch.agda`, `apiLF`) no longer carries a tx-closure branch:
-`MsgLFBlockTxsRequest`, `MsgLFBlockTxs` and the state `stBlockTxs` were removed on this
-branch (ADR §6). The hand-written `R2_Bisim` bisimulations lost the corresponding rows;
-their theorem statements are unchanged. It still carries the RANGE messages with
-`List Tx` payloads, so the old LeiosFetch is **not** tx-free — only its SELECTIVE
-tx-closure branch is gone.
-
-### The results
-
-`nodeP = nodeWith nodeBundleP` throughout — the prototype peer bundle, the same builder
-`LeiosInstanceL.leiosSystemL` composes the system from. For a POSITIVE row, "node" level
-means `Spec ⊑T nodeP n (nodeLogicL n st₀)`: one node's whole logic — every thread and all
-five stores — inside its own peer bundle, from empty stores. (The bundle folds over
-`linkConfig l`, so its size is instance-specific: twelve peers at `leiosLParams`, and the
-positives are ∀-`Params`.) **No result here is
-about a network.** `voteSound`, `certSound`, `blobSound`, `bodySound` and `certRbSound`
-are each ∀-`Params`, ∀-`LeiosParams`, ∀-topology, ∀-`apiES`, ∀-`voterOf`, ∀-node;
-`certSoundL` is the one positive stated at a concrete instance.
-
-**For a `*-FAILS` row the level column names the composite the refutation is over.**
-Since R2 (the `par-brBoth` INTRODUCTION lemma, `CSP/Laws/Traces/TraceLawsParallel.agda`)
-**four of the five are over `nodeLogicL`'s OWN composite** — the full six node-level
-threads, every endpoint's ten and the five stores under `∥⇘ storeES ⇙`, inside
-`nodeP nA (…)` — differing from the positive in exactly one thread (or, for S3, one
-store) and, for S2/S2′/S3, one initial state. **S1 alone is still REDUCED**; see
-limitation 4 for why (its reason is `apiES`-structural and the lemma does not help).
-`certRbSound-node-FAILS` (S4) is at `st₀`, the positive's own state, so its A/B differs
-in ONE thread and nothing else.
-
-| fact | level | premises | module |
-|---|---|---|---|
-| `chatter-diverges` | pair (not `systemOf`) | none | `Leios/Negative/Chatter` |
-| `wedge-reachable` / `wedge-stuck` | pair + one step | none | `Leios/Negative/FetchWedge` |
-| `voteSound` (S2 — a vote blob is deposited only for a held RB whose announced EB body this node also holds, or one delivered on the wire) | node, `⊑T`, ∀ Params | **none** | `Leios/VoteSound` |
-| `voteSound-node-FAILS` | node, `⊑T nodeP nA (…)` over **`nodeLogicL`'s OWN composite** (all 16 threads + 5 stores + bundle; `voterBad` in the voter slot), seeded stores, concrete `leiosLParams` line | none | `Leios/VoteSoundBad` |
-| `certSound` (S3 — `stCert r` fires only when the oracle certifies `r` against blobs actually deposited here) | node, `⊑T`, ∀ Params | `CertifiesMono` | `Leios/CertSound` |
-| `certSoundL` (S3 at the shipped oracle) | node, concrete line instance | **none** (`certMonoL` discharges `CertifiesMono`) | `Leios/CertSound` |
-| `certSound-node-FAILS` | node, `⊑T nodeP nA (…)` over **`nodeLogicL`'s OWN composite** (all 16 threads + bundle; `voteStoreBad` as the FIFTH STORE), seeded stores, concrete line + the two-voter oracle `certifies₂` | none | `Leios/CertSoundBad` |
-| `blobSound` (S2′ — a blob attributed to ANOTHER node's voter is deposited only if an `lnpRecvVotes` delivery carried that exact blob) | node, `⊑T`, ∀ Params | `nodeOf`, `nodeOf-voterOf` | `Leios/BlobOrigin` |
-| `blobSound-node-FAILS` | node, `⊑T nodeP nA (…)` over **`nodeLogicL`'s OWN composite** (all 16 threads + 5 stores + bundle; `voterBlobBad` in the voter slot), seeded stores, concrete line instance | none | `Leios/BlobOriginBad` |
-| `bodySound` (S1 — an EB body is deposited only if forged here or hash-matching a point this node requested) | node, `⊑T`, ∀ Params | **none** | `Leios/BodyOrigin` |
-| `bodySound-node-FAILS` | **one thread + the five stores** (bundle and the other 15 threads dropped), from `st₀`, concrete line instance | none | `Leios/BodyOriginBad` |
-| `certRbSound` (S4 — a certificate-carrying RB is deposited only after a local `stHasCert` for the RB its `rbCert` names, or off the wire) | node, `⊑T`, ∀ Params | **none** | `Leios/CertRbOrigin` |
-| `certRbSound-node-FAILS` | node, `⊑T nodeP nA (…)` over **`nodeLogicL`'s OWN composite** (all 16 threads + 5 stores + bundle; `forgeCertBad` in the forge-cert slot), **from `st₀`**, concrete line + the non-trivial `rbCert` of `leiosLP₃` | none | `Leios/CertRbOriginBad` |
-| `lfpP-reports-request` | typechecking probe, `refl` | none | `Leios/PeersPSanity` |
-
-Zero postulates, zero holes, no `NON_TERMINATING` in any of the new modules. All five
-positives go through the same route: `BlockProvenance.Carrier` + `BlockProvenanceWfR.Body`,
-the shared leaves of `Leios/OriginLeaves`, and `wf→osafe`/`osafe→⊑T` into
-`Leios/OriginSafe`.
-
-**What is NOT verified, and was not verified at base either.** The `apiLP` coverage pass of
-Task 1 added **2,238 lines across 18 modules that no typechecker has seen**:
-`NetworkVerification/Liveness/` `PipePair`, `PipePairPeers2`–`6`, `PipePairPeersKB`,
-`PipePairPeersKB2`, `PipePairFlipKAc`, `PipePairFlipKAs`, `PipePairFlipCSc`,
-`PipePairFlipCSs`, `PipePairFlipBFc`, `PipePairFlipBFs`, `PipePairFlipBFsFSim`,
-`PipePairFlipTSc`, `PipePairFlipTSs` and `NodeDOffers`. That chain was **already RED at
-base `c52025c8`** (a KeepAlive `Prefix`/`Ret` mismatch, surfacing at
-`PipePairPeers2.agda:881`) and is still red at HEAD, so its new arms are **unverified
-best-effort**: they are one wildcard arm per exhaustive `Net_Api` dispatch site, copied
-from an `apiLF` sibling, and they will meet a typechecker for the first time if and when
-the chain is repaired. Run `stolen_head_scan.py` as a delta over those 18 files before
-that first rebuild — Task 1 hit the stolen-head defect twice in exactly this kind of
-mechanical pass. Two further pre-existing REDs in files this branch touched are likewise
-unrepaired and predate it: `Parametric/Spike/HideDiverge.agda` carries **three `?` holes**
-(byte-identical at base, documented in-file as a deliberate spike — a standing violation
-of the repo no-holes rule: repair or retire), and `Parametric/EvBothProbe.agda` is red on a
-stale `numConns` literal. None of the three is in any endpoint's closure.
-
-### The limitations — read these before quoting anything above
-
-1. **No liveness, anywhere.** Every one of S1–S4 is purely safety-shaped: **no module
-   exhibits a good node actually reaching the gated event.** Three liveness ceilings are
-   recorded in `NodeLogicL`'s own comments and are reachable in the good logic:
-   `forgeCert`'s `stHasCert` rendezvous blocks a pass forever when the RB is never
-   certified; `serveTxs`'s `getTxEv` blocks when the node holds an EB body but not a
-   transaction of its closure, and because `ebServeLoop` and `ebTxsServeLoop` drive the
-   SAME LeiosFetchP producer this also stops EB-BODY serving on that endpoint;
-   `fetchTxs`'s leading `getBodyEv` blocks the SINGLE Notify client thread, killing
-   announcements, offers and votes on that endpoint. None of this is deadlock-freedom and
-   none of it may be quoted as such.
-2. **Node level only.** No result is a `systemOfWith` statement. A network-wide lift is
-   not a corollary: each discipline is ENDPOINT-AGNOSTIC in its mints (it mints at every
-   `(l , d)`), which is sound at node level only because inside `nodeP n (nodeLogicL n st₀)`
-   the only `store`/`env` channels are the `homeOf n` ones and no bundle peer offers a
-   `store` channel at all. **Lifted naively, node X's mint would licence node Y's deposit.**
-   The prescribed fix is in each module's header: index the key by `(l , d)` and gate a
-   deposit at `(l , d)` on keys carrying that same `(l , d)`. S3's lift is strictly harder
-   than S2's, because its gate sits on the STORE side of the `⦀`.
-3. **`certRbSound`'s (S4) forge route WAS unreachable in the shipped composite. BOTH
-   REASONS ARE NOW CLOSED (follow-up round R1, 2026-09-23); this entry records what was
-   wrong, what was done, and what is still not claimed.**
-
-   *The defect, as found in Task 10 and confirmed three times.* `forgeCert`'s first event
-   `env home(n) envForgeCert` is inside `storeES` (every `env` channel is —
-   `NodeLogic.storeSet`), no store of `nodeLogicL` offered it (`storeStepL` offered
-   `envForge` only), and under `∥⇘ storeES ⇙` a synchronised event fires only when both
-   operands offer it. So the whole `forgeCert` thread was blocked at its first event, as
-   was `submit`, whose `envSubmit` had no store partner either — and the node therefore
-   had NO ENVIRONMENT ROUTE INTO ITS MEMPOOL at all.
-
-   *The repair.* `storeStepL` gained a pure-rendezvous `envForgeCert` arm and `memStep` a
-   pure-rendezvous `envSubmit` arm. Both leave their store state UNCHANGED, so the design
-   is intact: `acceptForgeL` still rejects cert-carrying RBs on the `envForge` route and a
-   cert-RB still enters `held` only through `forgeCert`'s own `putEv`, after the
-   `stHasCert r` rendezvous. `Leios/NodeLogicLSanity` exhibits each thread's first event
-   as an LTS derivation **inside the full `nodeLogicL nA st₀`** — threads, all five stores
-   and the `∥⇘ storeES ⇙` rendezvous — so the "blocked" half is no longer an argument from
-   reading menus but a refuted one. The same module pins that the SECOND event of the
-   forge route, the `stHasCert r` RENDEZVOUS, is still withheld: `uncertified-blocks`
-   (the isolated `voteStore` offers no `stHasCert (just true)` from `st₀`) and
-   `certified-offers` (it does once that RB is in its `certs` list). **These two are
-   PROCESS facts about the vote store, not facts about the SPEC gate `certRbGate`** —
-   they say the implementation will not take the deposit step, not that the
-   specification would refuse it. The spec gate is probed separately, at the shipped
-   instance, by `gate-uncertified-at-leiosLP`/`gate-certified-at-leiosLP` below.
-
-   *The second, independent reason, also closed.* `LeiosInstanceL` used to set
-   `rbCert = λ _ → nothing`, so `vouchedRb` and `certRbGate` were identically `true` on the
-   shipped line and S4 permitted every trace there whatever the composite did. `leiosLP`
-   now carries the same non-trivial `rbCert` the control's `leiosLP₃` uses (the block
-   `just false` certifies the RB `just true`). That the SPEC GATE is consequently a real
-   test AT THE SHIPPED INSTANCE is machine-checked and not inferred across instances:
-   `Leios/NodeLogicLSanity.gate-uncertified-at-leiosLP` is
-   `certRbGate [] (Block , store fzero lo stPut) (just false) ≡ false` **at `leiosLP`**,
-   and `gate-certified-at-leiosLP` is the same deposit `≡ true` once `just true` is
-   minted. (`CertRbOriginBad.gate-uncertified`/`gate-certified` are the same pair at
-   `leiosLP₃`, and do NOT by themselves say anything about `leiosLP`.)
-
-   *What is still NOT claimed.* All five results remain purely safety-shaped: no module
-   exhibits a good node completing a forge — the probes reach the FIRST event of the
-   route, not the deposit, and the deposit is exactly what the `stHasCert` rendezvous
-   withholds until a certification has happened. **No exhibited trace anywhere on this
-   branch has the gate refusing anything**: the forge deposit is reachable-in-principle
-   and never exhibited. And the wire clause remains deliberately ungated AND
-   SELF-LICENSING — `certRbMints (_ , apiBF _ _ recvBFBlock) b = maybe′ (λ r → r ∷ []) []
-   (rbCert b)` (`CertRbOrigin.agda:257`), so the only cert-RB depositor this branch ever
-   exhibits inside `nodeLogicL` is still the BlockFetch `clientLoop`, whose deposit is
-   licensed by its own immediately-preceding `recvBFBlock`. S4 remains a NODE-level `⊑T`
-   fact (see limitation 2), and the statements of all five theorems and all five controls
-   are byte-identical to what they were before the repair.
-
-   **THE S4 WRITE-UP RULE, AS IT NOW STANDS.** The old rules "S4 is vacuous at the
-   shipped instance" and "never write that S4 constrains the shipped Leios line" are
-   WITHDRAWN — both were true only of the pre-repair model and the constant `rbCert`.
-   They are replaced by exactly these two sentences, which are what this branch may and
-   may not be quoted on:
-
-   > **Quotable: "S4 has content at the shipped instance."**
-   >
-   > **NOT quotable: "S4 was shown to constrain a demonstrated behaviour of the shipped
-   > Leios line."**
-
-   `CertRbOriginBad`'s composite is still the reduced one: R1 froze every statement, so
-   the control was not restated even though its original reason for dropping the stores
-   is gone.
-4. **Since R2, only S1 uses a reduced composite.** Node 0 of `leiosLLine` has degree 1,
-   so its full logic is **sixteen** threads — 6 node-level plus ONE endpoint's 10 — and
-   four of the five controls now run over exactly that, synchronised with the five
-   stores and wrapped in the peer bundle, i.e. over the composite the POSITIVE is
-   stated over.
-   * **S2, S2′ and S3** were reduced because `ebIndex`, the voter, `lnServerLoopL` and
-     `bodyOfferLoop` all offer `stGetAt 0`, and the repo had `par-brBoth` ELIMINATIONS
-     but no INTRODUCTION. R2 built the introduction —
-     `TraceLawsParallel.Par-brBoth` + `par-brNode-τL/R` — so the reduction is GONE.
-     Their traces pay one extra τ per collision on the path (two, here), because
-     `par-pVis` fires a both-offer non-sync event into an inline internal choice rather
-     than picking a side.
-   * **S4** was reduced because, before R1, no store offered `envForgeCert` and the
-     forge thread was blocked at its first event. R1 added the arm and R2 restated the
-     control; the restatement is STRICTLY STRONGER — it survives both the store
-     rendezvous (the block store's `putEv` arm is deliberately ungated) and the peer
-     bundle, it needs NO `par-brBoth` (nothing collides on either of its two events),
-     and it is at `st₀`. What used to be "the load-bearing half (`wf-threads`)" is now
-     literally `CertRbSpecT ⊑T nodeP nA (…)`.
-   * **S1 IS STILL REDUCED**: it keeps the five stores and drops **both** the peer
-     bundle and **fifteen** threads — `nodeLogicLBodyBad` is ONE thread against the five
-     stores. Reason: its defect is on the WIRE branch and every `apiLP` channel is
-     inside `apiES`, so the composite must drop the bundle. That is `apiES`-structural;
-     the `par-brBoth` lemma does not help it, and `bodySound-logic-good` remains a
-     genuine compensator at the identical reduced composite.
-   **What the five `-good` compensators are now.** `certRbSound-threads-good` is
-   RETIRED and replaced by `certRbSound-node-good`, which is `certRbSound nA` itself —
-   the positive theorem, not a separate assembly. `voteSound-node-good`,
-   `blobSound-node-good` and `certSound-node-good` are NARROWED: each is now the
-   positive's own assembly applied to the UNMODIFIED `nodeLogicL nA stSeeded`, so they
-   compensate the SEED and nothing else — there is no pruning left to compensate.
-   `bodySound-logic-good` is KEPT unchanged, for S1's still-reduced composite.
-   The S2/S2′/S3 controls still run from a SEEDED store state (`stSeeded`, one held RB
-   and, for two of them, one EB body) whereas every positive is at `st₀`; each bad/good
-   pair is at the same seed, so the A/B is internally consistent, but "from empty
-   stores" is a claim about the POSITIVES only. S1's and S4's controls need no seeding.
-   **The standing rule "never pair a positive with its refutation" is NARROWED, not
-   dropped**: the COMPOSITE caveat is retired for S2/S2′/S3/S4, but every refutation is
-   still at a CONCRETE parameter line, at node 0, at NODE level, and three of them from
-   a seeded state — so never pair an ∀-quantified positive with its concrete refutation
-   in one sentence, and never read a system-level break out of any of them.
-5. **None of S1–S4 is a validity statement.** The prototype's votes carry no verdict at
-   all, so S3 says nothing about whether a certificate is deserved; S1 says a body was
-   forged or requested here, not that requesting it was right, and its guard is a hash
-   test with `ebHash` nowhere assumed injective; S2′ does NOT show the claimed voter
-   really cast the blob, and leaves blobs the node attributes to itself entirely free;
-   S4's wire clause mints a HASH, so one delivery licenses the deposit of every block
-   carrying that same certificate hash.
-6. **Recorded modelling costs.** `ebStore` is dead weight — filled by `ebIndex`, read by
-   nobody (the voter walks `held`), yet still an operand of `storeES` in every proof.
-   `putChecked`/`serveTxs` SKIP bad or out-of-range offsets, so "every requested offset is
-   answered" is FALSE; the true statement is "every entry in the reply is real".
-   `allOffsets` is the only bitmap anyone builds, so the wire's selectivity is never
-   exercised by the good logic. At `leiosLParams`, `LSlot = Size = ⊤`, so slot-keyed
-   addressing is nominal only.
 
 ---
 
@@ -2507,9 +2209,9 @@ right-hand operand of `P ⊑FD Q` (`FD/HideMonoFD.agda:268-270`; the module's ow
 `:243` calls it "the refined side's hide"). **It is NOT a hypothesis about the spec `P`** —
 earlier revisions of this note and of the §17 coverage table said "the hidden spec", which
 was wrong: the spec side is unconstrained, and the side condition bites precisely because
-it is the *implementation* composite (the ~150-leaf mux) whose hide one must show
-divergence-free. And **every top-level refinement statement in this repo hides
-internal/message events** — the mux shape is always `(⦀Fin n leaf) ∖ msgs` or similar.
+it is the *implementation* composite whose hide one must show divergence-free. And
+**a typical top-level refinement statement hides internal/message events** — the shape
+is usually `(⦀Fin n leaf) ∖ msgs` or similar.
 
 What carries an FD-strength refinement through hiding unconditionally is a **witness**, and there are two
 independent routes here — neither recoverable from a bare `⊑FD` fact:
@@ -2767,9 +2469,169 @@ The genuinely-remaining item with a similar shape lives in a different document:
 `docs/specs/compositional-refinement-plan.md` Tasks 1–2 (`Par-mono-⊑FD`,
 `Hide-mono-⊑FD`) are marked done in that file (with the correction that unconditional
 `Hide-mono-⊑FD` is false — see §6 above); **Tasks 3–4 of that plan — restructuring a
-flat spec into leaf-decomposed form, and assembling the compositional Cardano mux
+flat spec into leaf-decomposed form, and assembling a compositional mux
 refinement from it — have no "done" annotation in that file and genuinely remain.**
 (Verified by reading the file: only Task 2 carries an "UPDATE (done…)" note.)
+
+---
+
+## §18 — Replication `!` (`CSP/Replication.agda`)  🟡
+
+Native lazy replication (ProVerif `!P ≡ P | !P`), built on `security_replication`
+(branch note above). `Rep merge P k Q` stands for `Q ∥ P k ∥ P (suc k) ∥ …`
+(interleaved, empty alphabet): `Q` holds the copies already started, and a **fresh**
+copy `P k` is spawned lazily on its first step, into
+`Rep merge P (suc k) (Par ∅ES merge Q P′)`. Copies are named in **spawn order** — the
+j-th copy to start is `P j` (plan `docs/superpowers/plans/2026-09-30-native-replication.md`, §Decisions D2). `! P = Rep P 0 Stop`;
+`!⦀`/`Rep⦀` are the interleaving (`⊤`-merge) instances, `!ᶜ` the uniform (every-copy-same)
+specialisation. The corecursive call sits inside `Rep`'s own **state argument**, directly
+under `just` at every branch (`CSP/Replication.agda:63-89`) — the shape that survives
+`--guardedness` where `!P = P ⦀ !P` (corecursion in an operator's ARGUMENT) does not; see
+the R31 pointer in `Security/Compose.agda`.
+
+**Negative controls** (pin the model's behaviour where a reasonable reader would guess
+wrong):
+
+| Control | Statement | Module (file:line) |
+|---|---|---|
+| `rep-skip` | a copy that terminates at once is never spawned: `!⦀ (λ _ → Skip)` offers nothing visibly, so it behaves like `Stop` (`ret`'s √ is dropped, blocking every later copy) | `CSP.Examples.ReplicationSanity.rep-skip`, `src/CSP/Examples/ReplicationSanity.agda:94-95` |
+| `Rep-unguarded-diverges` | an UNGUARDED copy (every `P j` has an initial τ) makes `Rep merge P k Q` **diverge** — each fresh copy's τ spawns it and exposes the next fresh copy, so the `isStable` premise of the divergence-freedom theorems below is load-bearing | `CSP.Laws.DivFree.Replication.Rep-unguarded-diverges`, `src/CSP/Laws/DivFree/Replication.agda:135-141` |
+| `naive-unfold-fails` | with index-dependent copies (`Pt j = tick j ⟶₀ Stop`) the naive unfold `!P ≈ P 0 ⦀ Rep P 1 Stop` is FALSE even at **trace containment** (`¬ (!⦀ Pt ⊇T (Pt 0 ⦀ Rep⦀ Pt 1 Stop))`): the RHS's copy 1 can fire `tick 1` immediately, but the LHS's fresh copy is `Pt 0` and copy 1 is not yet spawned — index order is observable, hence D2's "unfold laws are for uniform `P`, or as frame laws" | `CSP.Examples.ReplicationIndexOrder.naive-unfold-fails`, `src/CSP/Examples/ReplicationIndexOrder.agda:68-69` |
+| `frame-needs-disj` (Task 6 Step 7) | `Rep-frame-∼`'s disjointness premises are load-bearing: with `P1 = a ⟶₀ Stop` as every copy, as `Q` and as `S`, `¬ (Rep⦀ P1s 0 (P1 ⦀ P1) ∼ (P1 ⦀ Rep⦀ P1s 0 P1))`. Distinguishing move (unfolding `Sbisim.fwd`): after `a`, the replicated side's τ "running copies took it" reaches `Rep⦀ P1s 0 N` (N = the Q/S collision node), which still has a τ and can do `a`, `a`; the framed side's two τ-branches are `Stop ⦀ Rep⦀ P1s 0 P1` (no τ, `framed-stable`) and `P1 ⦀ R` (R = the S/fresh collision node, so only one more `a`). Built in 53 lines (cap 150); cited from the header of `CSP.Laws.Bisim.ReplicationFrame` (`src/CSP/Laws/Bisim/ReplicationFrame.agda:36-40`) | `CSP.Examples.ReplicationSanity.frame-needs-disj`, `src/CSP/Examples/ReplicationSanity.agda:138-156` (helper `framed-stable`, :123-131) |
+
+**Non-vacuity** of the frame law: `CSP.Examples.ReplicationIndexOrder.frame-Pt`
+(`src/CSP/Examples/ReplicationIndexOrder.agda:97-98`) applies `!-frame-∼` to the
+index-dependent copies `Pt j = tick j ⟶₀ Stop` with singleton alphabets `αt j` (only
+`tick j`), discharging `RepDisj` concretely (`rdPt`, :89-90), to get
+`Rep⦀ Pt 1 (Pt 0 ⦀ Stop) ∼ (Pt 0 ⦀ Rep⦀ Pt 1 Stop)` — the naive unfold's right-hand side,
+which `naive-unfold-fails` shows is NOT trace-equivalent to `!⦀ Pt`.
+
+**Shipped laws:**
+
+| Law | Statement | Strength | Premises | Module (file:line) | Postulates |
+|---|---|---|---|---|---|
+| `τ-Acc-Rep` | stable fresh copies ⇒ `τ-Acc Q` lifts to `τ-Acc (Rep merge P k Q)` (a running copy's τ recurses on `Q`'s certificate; a fresh copy's τ is impossible by stability) | τ-Acc | `∀ j → isStable (P j)`; `τ-Acc Q` | `CSP.Laws.DivFree.Replication.τ-Acc-Rep`, `src/CSP/Laws/DivFree/Replication.agda:156-164` | none |
+| `τ-AccReach-Par` | τ-accessibility at every √-free-reachable state is closed under generalised `Par` (general, reusable — not `Rep`-specific; the both-offer overlap node is handled by the co-declared `τ-AccReach-parBoth`) | τ-AccReach | `τ-AccReach P`; `τ-AccReach Q` | `CSP.Laws.DivFree.Replication.τ-AccReach-Par` (+ `τ-AccReach-parBoth`), `src/CSP/Laws/DivFree/Replication.agda:90-125` | none |
+| `τ-AccReach-Rep` | τ-accessibility at every √-free-reachable state of `Rep merge P k Q` (run induction; the collision node is handled by the co-declared `τ-AccReach-repBoth`) | τ-AccReach | `∀ j → isStable (P j)`; `∀ j → τ-AccReach (P j)`; `τ-AccReach Q` | `CSP.Laws.DivFree.Replication.τ-AccReach-Rep` (+ `τ-AccReach-repBoth`), `src/CSP/Laws/DivFree/Replication.agda:167-198` | none |
+| `!-divergenceFree` | `!` of stable, reachably divergence-free copies is `DivergenceFree` | DivergenceFree | `∀ j → isStable (P j)`; `∀ j → τ-AccReach (P j)`. NB `isStable` is `⊥` on `ret` too (`Process_Trees.agda:173-176`), so the premise also excludes terminating copies, not only copies with an initial τ | `CSP.Laws.DivFree.Replication.!-divergenceFree`, `src/CSP/Laws/DivFree/Replication.agda:200-205` | none |
+| `Rep-traces-approx` | every trace of `Rep⦀ P k Q` (interleaving instance) is a trace of some finite EAGER approximant `Approx P k n Q` (which starts copies `P k … P (k+n-1)` eagerly, nested exactly as `Rep` nests them); the witness `n` counts the spawns on the run, built by the co-declared `Rep-run-approx`/`repBoth-run-approx`. ONE DIRECTION ONLY: traces(Rep) ⊆ ⋃ₙ traces(Approx n); the converse is not shipped | ⊇T (trace approximation) | none — unconditional | `CSP.Laws.Traces.ReplicationApprox.Rep-traces-approx`, `src/CSP/Laws/Traces/ReplicationApprox.agda:124-127` (approximant `Approx`, :54-56; lift `Approx-lift`, :73-77) | none — controller-audited closure: 19 local modules, 0 postulates |
+| `⦀-assoc-∼-disj` | `(P ⦀ Q) ⦀ R₀ ∼ P ⦀ (Q ⦀ R₀)` — STRONG associativity of interleaving, under pairwise alphabet disjointness (unconditional `⦀`-associativity holds only at ≈FD in general, `CSP/Laws/FD/ParallelAssoc.agda`); a same-event collision would nest the overlap node differently between the two bracketings, and disjointness rules that out (every `evBoth` case of `Par-ev-elim` becomes absurd) | ∼ (strong bisim) | `OffersOnly α P`; `OffersOnly β Q`; `OffersOnly γ R₀`; `Disj α β`; `Disj α γ`; `Disj β γ` | `CSP.Laws.Bisim.ParallelAssocDisj.⦀-assoc-∼-disj`, `src/CSP/Laws/Bisim/ParallelAssocDisj.agda:116-119` | none used; the closure holds 5 postulate modules, all via `DRCongruenceRep` (module header, `ParallelAssocDisj.agda:24-27`) |
+| `Rep-state-cong-∼` | `Rep⦀` is a strong congruence in its running-copies state, UNCONDITIONALLY: `X ∼ Y ⇒ Rep⦀ P k X ∼ Rep⦀ P k Y` (the collision node's congruence is the co-declared `repBoth-cong-∼`) | ∼ | `X ∼ Y` | `CSP.Laws.Bisim.ReplicationFrame.Rep-state-cong-∼` (+ `repBoth-cong-∼`), `src/CSP/Laws/Bisim/ReplicationFrame.agda:146-201` | none |
+| `Rep-frame-∼` | the **strong frame law**: a disjoint, not-yet-spawned-fresh `Q` slides out of the replication — `Rep⦀ P k (Q ⦀ S) ∼ (Q ⦀ Rep⦀ P k S)`. Proved over the generalised relation `Rep⦀ P k X ∼ Q ⦀ Rep⦀ P k S` whenever `X ∼ Q ⦀ S` (`frame-gen`); a fresh spawn moves copy `P k` into `S` (`βS` grows by `α k`, `k` becomes `suc k`) via `cong-⦀-∼` then `⦀-assoc-∼-disj` | ∼ | `RepDisj α P` (each copy confined + pairwise disjoint); `OffersOnly βQ Q`; `OffersOnly βS S`; `Disj βQ βS`; `FreshFrom α k βQ`; `FreshFrom α k βS` | `CSP.Laws.Bisim.ReplicationFrame.Rep-frame-∼`, `src/CSP/Laws/Bisim/ReplicationFrame.agda:387-391` | none |
+| `Rep-frame-DR` | `Rep-frame-∼` at divergence-respecting weak bisimulation, via `sbisim→drbisim` | ≈DR | same as `Rep-frame-∼` | `CSP.Laws.Bisim.ReplicationFrame.Rep-frame-DR`, `src/CSP/Laws/Bisim/ReplicationFrame.agda:394-398` | none |
+| `Rep-frame-FD` | `Rep-frame-∼` at failures-divergences equivalence, via `drbisim→≈FD` | ≈FD | same as `Rep-frame-∼` | `CSP.Laws.Bisim.ReplicationFrame.Rep-frame-FD`, `src/CSP/Laws/Bisim/ReplicationFrame.agda:401-405` | **USES** `¬-divergent→normal` (`Semantics.DRImpliesFD`, reached via `drbisim→≈FD → drbisim→⊑FD → drbisim→fsim`'s `stab` field). Module-header audit: FIVE postulate modules sit in this file's closure (`Semantics.DRImpliesFD` +, via `DRCongruenceRep`, `DRCongruence`'s `modA-transfer` + `FD.{ExtChoice,Interrupt,Parallel}Divergence`'s `□/△/Par-Diverges→`) — but `Rep-state-cong-∼`/`Rep-frame-∼`/`!-frame-∼`/`Rep-frame-DR` use NONE of them, only `Rep-frame-FD` does |
+| `!-frame-∼` | the `S = Stop` instance of the frame law (empty `βS`): `Rep⦀ P k (Q ⦀ Stop) ∼ (Q ⦀ Rep⦀ P k Stop)`. Its use is pushing a disjoint sibling into the state; reachable `!⦀` states have the shape `Rep⦀ P k ((Stop ⦀ P′₀) ⦀ …)` and are covered by the general `Rep-frame-∼`. Non-vacuity instance: `frame-Pt` (above) | ∼ | `RepDisj α P`; `OffersOnly βQ Q`; `FreshFrom α k βQ` | `CSP.Laws.Bisim.ReplicationFrame.!-frame-∼`, `src/CSP/Laws/Bisim/ReplicationFrame.agda:410-414` | none |
+
+**Uniform replication at ≈FD — BUILT** (plan `docs/superpowers/plans/2026-09-30-replication-fd-unfold.md`,
+branch `replication_fd`; route R1/R2 hybrid of the verdict
+`docs/superpowers/specs/2026-09-30-replication-fd-route-verdict.md`). Every law is at the
+uniform instance `RepC P k X = Rep⦀ (λ _ → P) k X` (`CSP/Laws/FD/ReplicationDivergence.agda:54-55`)
+and carries **no premise on P**: it holds for unguarded `P`, for `P = Skip`, and with
+colliding copies. Index-dependent copies stay out of scope (`naive-unfold-fails` above).
+
+| Law | Statement | Strength | Premises | Module (file:line) | Postulates (used) |
+|---|---|---|---|---|---|
+| `!ᶜ-frame-FD` | `RepC P k (Q ⦀ S) ≈FD (Q ⦀ RepC P k S)` — the frame law WITHOUT `Rep-frame-FD`'s disjointness premises (for uniform copies, they are load-bearing only at ∼, `frame-needs-disj`). Four inclusions over the component records; the base `Q ⦀ S` is split / rebuilt by the binary √-free `Par-reach-elim`/`Par-reach-intro` (`Par-reach-div` when it diverges) and re-bracketed inside the n-ary interleaving by `ILv-assocL`/`ILv-assocR` | ≈FD | none | `CSP.Laws.FD.ReplicationUnfold.!ᶜ-frame-FD`, `src/CSP/Laws/FD/ReplicationUnfold.agda:265-266` (the four inclusions `fr-f→`/`fr-f←`/`fr-d→`/`fr-d←`, :189-262) | `Par-Diverges→` (divergence halves only) |
+| `!ᶜ-absorb-FD` | `RepC P k (Q ⦀ P) ≈FD RepC P k Q` — a pre-placed copy of `P` is absorbed into the supply. →: its run joins the copies (`ILv-join`); ←: the first listed copy moves into the base (`ILv-split`), or with no copy the pre-placed `P` stays unmoved, inert by the fresh supply's `inP` | ≈FD | none | `CSP.Laws.FD.ReplicationUnfold.!ᶜ-absorb-FD`, `src/CSP/Laws/FD/ReplicationUnfold.agda:352-353` (inclusions :272-349) | `Par-Diverges→` (divergence halves only) |
+| `!ᶜ-unfold-FD` | `!ᶜ P ≈FD (P ⦀ !ᶜ P)` — the ProVerif unfold. Chain: `!ᶜ P = RepC P 0 Stop` ≈ (absorb, Q = Stop) `RepC P 0 (Stop ⦀ P)` ≈ (`∼→≈FD (Rep-state-cong-∼ (Par-comm ∅ES P Stop))`) `RepC P 0 (P ⦀ Stop)` ≈ (frame, Q = P, S = Stop) `P ⦀ RepC P 0 Stop` | ≈FD | none | `CSP.Laws.FD.ReplicationUnfold.!ᶜ-unfold-FD`, `src/CSP/Laws/FD/ReplicationUnfold.agda:361-365` | `Par-Diverges→`; `¬-divergent→normal` (only the `Par-comm` step, via `∼→≈FD` → `drbisim→≈FD` → `drbisim→fsim`'s `stab`) |
+| `!ᶜ-unfold-T` | `traces (!ᶜ P) s ⇔ traces (P ⦀ !ᶜ P) s` — derived directly from the trace characterisation (the base `Stop` never moves, `ILv-drop`/`ILv-pad`), not through frame/absorb | trace equivalence | none | `CSP.Laws.FD.ReplicationCharFD.!ᶜ-unfold-T`, `src/CSP/Laws/FD/ReplicationCharFD.agda:281-282` (`unfold→`/`unfold←`, :268-278) | none |
+| `RepC-{traces,failures,div}-{elim,intro}` | the component-wise characterisation the laws above consume: a trace / failure / divergence of `RepC P k Y` is exactly one run of `Y`, one run of `P` per listed copy and an `ILv` of their traces (records `RepRun`/`RepFailOut`/`RepDivOut`, :82-122); failures carry `Inert` ends AND an inert pristine fresh copy (`inP`); divergences are stated over the divergence PREFIX (`Y′`, a copy end, or a τ of `P`) | exact iff (per record) | none | `CSP.Laws.FD.ReplicationCharFD`, `src/CSP/Laws/FD/ReplicationCharFD.agda:152-210` | `Par-Diverges→` (`RepC-div-elim` only) |
+
+**Generic n-ary interleaving layer** (not replication-specific: the n-ary counterpart of
+`ParallelAssoc`, reusable elsewhere). `Nest`/`ILv` and their lemmas are built on `_⦀_`
+specifically (∅ES, the ⊤-merge) — they cover `_⦀_`-shaped results only, not general
+`Par A merge`; the binary `Par-reach-elim`/`Par-reach-intro` below, which ARE general in
+`A`/`merge`, are what a general n-ary layer would have to generalise them to:
+
+| Law | Statement | Strength | Premises | Module (file:line) | Postulates (used) |
+|---|---|---|---|---|---|
+| `ILv` / `Pick` + `ILv-one`/`ILv-one⁻¹`/`ILv-join`/`ILv-split`/`ILv-cons`/`ILv-uncons`/`ILv-assocL`/`ILv-assocR` | the n-ary interleaving witness (a `Pick` path per merged event; the `Fin`/`updateAt` form is MEASURED unusable, `UnificationStuck`) and its re-bracketing laws against the binary `ParInter ∅ES` | trace-level combinatorics | `All IsEvl s` where a binary witness is produced or consumed | `CSP.Laws.Traces.InterleaveNest`, `src/CSP/Laws/Traces/InterleaveNest.agda:155-239` | none |
+| `Par-reach-elim` / `Par-reach-intro` | endpoint-exact, √-free binary `Par` runs (general `A`, `merge`): a run decomposes into operand runs + `ParInter` with the end τ-reaching `Par A merge P′ Q′`, and conversely | reach-level | `All IsEvl s` | `CSP.Laws.Traces.InterleaveNest`, `src/CSP/Laws/Traces/InterleaveNest.agda:81-148` | none |
+| `Nest` / `Approx-Nest` / `Nest-reach-elim` / `Nest-reach-intro` | the left-nested n-ary interleaving `Nest Y cs` (the finite approximants are nests, `Approx-Nest`), and its run elim / intro through `ILv` | reach-level | `All IsEvl s` | `CSP.Laws.Traces.InterleaveNest`, `src/CSP/Laws/Traces/InterleaveNest.agda:246-313` | none |
+| `Nest-failures-elim` / `Nest-failures-intro` / `Nest-failures` | √-free failures of a nest: component runs with every end `Inert` on the refusal's visible part (intro: the nest of the ends is `Inert`, so a failure or, all ends `ret`, a trace to a `ret` end) | failures | `All IsEvl s` | `CSP.Laws.FD.InterleaveNestFD`, `src/CSP/Laws/FD/InterleaveNestFD.agda:135-160` | none |
+| `Nest-div-elim` / `Nest-div-intro` (+ `Nest-reach-div`) | divergences of a nest: component runs of the prefix with SOME end divergent (level by level with `Par-reach-div`) | divergences | none | `CSP.Laws.FD.InterleaveNestFD`, `src/CSP/Laws/FD/InterleaveNestFD.agda:178-217` | `Par-Diverges→` (elim only) |
+
+**Negative control** (Review Focus 3):
+
+| Control | Statement | Module (file:line) |
+|---|---|---|
+| `pristine-not-process` | the kept pristine fresh copy is NOT an ordinary running copy: `¬ (RepC Pa1 0 Stop ⊑FD (Stop ⦀ Pa1))` with `Pa1 = a ⟶₀ Stop`. After ⟨a⟩ the right side is `Stop ⦀ Stop` and refuses everything (`rhs-failure`, refusal set `λ _ → ⊤`: a `{a}` set would live in `Set₁`), while the replication's fresh copy still offers `a` (`RepFailOut.inP`); every divergence disjunct is refuted by stability. So `RepC Y ⊑FD (Approx n Y ⦀ P)` is false, and the `Inert P` side condition must travel through every failure step | `CSP.Examples.ReplicationFDSanity.pristine-not-process`, `src/CSP/Examples/ReplicationFDSanity.agda:128-134` (`rhs-failure`, :117-124) |
+
+**Instantiation checks** of the unfold (`src/CSP/Examples/ReplicationFDSanity.agda`):
+`skip-unfold : !ᶜ Skip ≈FD (Skip ⦀ !ᶜ Skip)` (:137-138, a copy that terminates at once is
+never spawned) and `collide-unfold : !ᶜ Paa1 ≈FD (Paa1 ⦀ !ᶜ Paa1)` with
+`Paa1 = a ⟶₀ (a ⟶₀ Stop)` (:141-146, identical copies collide on `a`, the deferral that
+ruled out route R3). Both instantiate `!ᶜ-unfold-FD` — a premise-free universal theorem,
+its premise-freedom visible in the type — at a concrete event type, so neither can fail;
+Review Focus 3 is carried by `pristine-not-process` above, not by these two.
+`unguarded-both-diverge` (same file) pins Review Focus 1.
+
+**Postulate audit** (Review Focus 5; `agda --dependency-graph` on
+`CSP/Laws/FD/ReplicationUnfold.agda`, 427 labels, local files scanned): SEVEN local modules
+with a `postulate` sit in the closure — `CSP/Laws/Bisim/DRCongruence.agda` (`modA-transfer`),
+`CSP/Laws/FD/ExtChoiceDivergence.agda` (`□-Diverges→`, `▷-Diverges→`),
+`CSP/Laws/FD/FDTransfer.agda` (`Diverges-LEM`), `CSP/Laws/FD/InterruptDivergence.agda`
+(`△-Diverges→`), `CSP/Laws/FD/ParallelDivergence.agda` (`Par-Diverges→`),
+`CSP/Laws/FD/ParallelRefusals.agda` (`offer-LEM`), `Semantics/DRImpliesFD.agda`
+(`¬-divergent→normal`). USED, by reading the called definitions: `Par-Diverges→`
+(`ParallelDivergence.agda:55`) and `¬-divergent→normal` (`DRImpliesFD.agda:69`), both
+dne-certified E4 postulates. The rest are in the closure only (through `ParallelExchange`,
+`ReplicationFrame` and `ReplicationRefusals`'s imports). No new postulate, `dne` or LEM.
+
+**Size.** The whole plan added 2,123 lines of Agda under `src/` since `2523cf36` (9 new
+files, 0 deletions; `git diff --shortstat 2523cf36..HEAD -- src` before this table's
+commit), against the verdict's estimate of 1,450–2,350 (central ~1,800): inside the range,
+about 18 % over the central figure.
+
+**Consolidation debts** (generic helpers that live in replication modules):
+- the `Inert` family (`vis`, `Inert`, `inert-no-τ`/`inert-no-offer`/`inert-of`,
+  `Inert-⦀-elim`/`Inert-⦀-intro`) is generic but sits in `CSP.Laws.FD.ReplicationRefusals`
+  (`src/CSP/Laws/FD/ReplicationRefusals.agda:59-172`);
+- `Del`, `Del-All`, `Pick-Del` and `ILv-absorb` are generic interleaving lemmas in
+  `CSP.Laws.FD.ReplicationIntro` (`src/CSP/Laws/FD/ReplicationIntro.agda:82-117`), because
+  `InterleaveNest` was committed before they were needed;
+- the generic `InterleaveNest` imports the replication module `ReplicationApprox` (for
+  `Approx`, `IsEvl`, `⟹-++`, `⦀-lift-L`; `src/CSP/Laws/Traces/InterleaveNest.agda:53`);
+  `IsEvl`/`⟹-++`/`⦀-lift-L` belong in a generic module;
+- smaller: `ILv-drop`/`ILv-pad`/`PI-evl`/`PI-evlR` (`ReplicationCharFD.agda:224-247`) and the
+  binary `⦀` helpers `⦀-inert-elim`/`⦀-fail-intro`/`PI-left`/`⦀-div-split`
+  (`ReplicationUnfold.agda:99-155`) are generic too;
+- `⦀-div-split` (`ReplicationUnfold.agda:147-155`) restates the per-level step inlined in
+  `Nest-reach-div` (`InterleaveNestFD.agda:184-193`);
+- `RepC-reach-div` + `nest→run` (`ReplicationUnfold.agda:158-172`) redo `RepC-div-elim` +
+  `mkDiv` (`ReplicationCharFD.agda:139-145,196-203`) at the run's own trace — `RepC-div-elim`
+  could be defined from `RepC-reach-div`;
+- the generic `InterleaveNestFD` imports the replication module `ReplicationRefusals`, for
+  `Inert`/`vis` (`src/CSP/Laws/FD/InterleaveNestFD.agda:55`);
+- `Par-reach-elim` (`CSP.Laws.Traces.InterleaveNest`) is a 4th copy of the binary `Par` elim
+  skeleton, beside `Par-trace-elim` (`TraceLawsParallelTrace.agda:124`), `Par-trace-reach`
+  (`ParallelAssocFail.agda:161`) and `Par-reach-div` (`ParallelDivergence.agda:108`);
+- `Rep-div-approx` (`ReplicationApproxFD.agda:174-183`) and `Approx-Diverges-L`
+  (`ReplicationDivergence.agda:136-138`) currently have no consumer; the replication route
+  goes through `Rep-reach-div`/`RepC-div-elim` instead. Likewise the `Nest-failures-*`/
+  `Nest-div-*` API (`InterleaveNestFD.agda:135-217`) is kept as generic API — the replication
+  route uses `Nest-reach-elim`/`Nest-reach-div` (`InterleaveNest.agda:301`/
+  `InterleaveNestFD.agda:178`) directly instead.
+
+The step calculus underlying every law above (`Rep-ev-elim`/`Rep-τ-elim` and their
+`evRun`/`evFresh`/`evBoth` / `τRun`/`τFresh` cases, plus the same-event collision node
+`repBoth`) lives in `CSP.Laws.Traces.ReplicationSteps`
+(`src/CSP/Laws/Traces/ReplicationSteps.agda`), mirroring `Par-τ-elim`/`Par-ev-elim`
+(`CSP/Laws/Traces/TraceLawsParallelElim.agda:227,337`). `Rep` never terminates
+(`Rep-no-√`, `src/CSP/Laws/Traces/ReplicationSteps.agda:221-223`) and its collision node
+offers nothing visibly (`repBoth-no-ev`, `:230-233`).
+
+**R31 pointer (Task 8, comment-only):** `Security/Compose.agda`'s R31 ruling — that
+`compose`'s session pool cannot grow via a spawning combinator because the corecursive
+call would sit in a defined function's argument — now carries a note that growth IS
+writable as a native combinator whose state argument carries the running copies (this
+`Rep`); R31's `∀ c` route through a pre-created, monotone `Config.live` is unchanged,
+and integrating `Rep` into `compose` is a separate plan. The pointer sits right after
+R31's "it is only GROWTH that is unwritable" (`Security/Compose.agda:390-393`). Security
+closure rechecked (`cd src && systemd-run --user --scope -p MemoryMax=25G agda +RTS -M20G
+-RTS Security/Examples/DHDS.agda`, with `Compose.agdai` and `DHDS.agdai` deleted first):
+exit 0, printing the literal lines `Checking Security.Examples.DHDS` and
+`Checking Security.Compose`.
 
 ---
 

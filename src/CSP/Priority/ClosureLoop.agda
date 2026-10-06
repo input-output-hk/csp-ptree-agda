@@ -6,8 +6,8 @@
 --
 -- The channel-level priority operator `Priᶜ` requires a `FinBr`
 -- (finite-branching stability certificate) for whatever process it wraps.
--- Every `NetworkLink` medium leaf is a `loop0 (pchoice menu)` cell, and this
--- module builds its `FinBr`.
+-- A network-medium leaf is typically such a `loop0 (pchoice menu)` cell, and
+-- this module builds its `FinBr`.
 --
 -- Shape analysis (all DEFINITIONAL, confirmed against `CSP.Operators`):
 --   * `pchoice menu` forces to `react menu ∅t`  (stable: empty τ-part).
@@ -71,7 +71,7 @@ open import CSP.Laws.Traces.TraceLawsBind E-≟
 
 ------------------------------------------------------------------------
 -- The visible-offer menu shape carried by every leaf: an offer map into
--- `PTree ⊤` continuations (as in `CSP.Examples.Cardano_network.Network.Menu`).
+-- `PTree ⊤` continuations.
 ------------------------------------------------------------------------
 
 Menu : Set (lsuc ℓ ⊔ ℓe)

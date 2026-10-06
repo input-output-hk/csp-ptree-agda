@@ -7,9 +7,9 @@
 -- consumer: `CSP.Laws.Stability.Closure` already imported an FSim HELPER
 -- (`CSP.Laws.FSim.HideCong.hide-stable-noOffA`, not a congruence), and the only
 -- compositional FD proof anywhere in the repo was the 3-state vending machine
--- (`CSP.Examples.VendingMachine.VendingMachine`, via `loop0-mono-⊑FD`).  The two existing
--- FSim consumers (`CSP.Examples.UCS.Ch6.BuffersFSim`, `…Liveness.PipePairFlipBFsFSim`)
--- each build ONE `FSim` by hand via `FSimFromRel` — the monolithic route again, just
+-- (`CSP.Examples.VendingMachine.VendingMachine`, via `loop0-mono-⊑FD`).  The existing
+-- FSim consumer (`CSP.Examples.UCS.Ch6.BuffersFSim`)
+-- builds ONE `FSim` by hand via `FSimFromRel` — the monolithic route again, just
 -- one-directional.  This campaign's own `CSP.Laws.FD.Congruences` now imports/re-exports
 -- the FSim congruences as well.  (It used to name `CSP.Laws.FD.LoopMonoFD` here too; that
 -- module has since been deleted outright, its four surviving `FSim → ⊑FD` loop wrappers
@@ -22,8 +22,8 @@
 --   → `Hide-fsim`               (unconditional — the operator where ⊑FD-mono is FALSE)
 --   → `fsim→⊑FD`                (cash out ONCE, at the top)
 --
--- The shape `(⦀Fin n leaf) ∖ msgs` is the shape of every real target in this repo, and
--- hiding appears on BOTH sides as it does in the BlockFetch abstract refinement.
+-- The shape `(⦀Fin n leaf) ∖ msgs` is the shape of a typical real target, with
+-- hiding on BOTH sides.
 --
 -- WHY THIS MATTERS: unconditional `Hide-mono-⊑FD` is FALSE (`CSP.Laws.FD.HideMonoFD`),
 -- so a composite built from bare `⊑FD` facts cannot cross a hide. What crosses instead
